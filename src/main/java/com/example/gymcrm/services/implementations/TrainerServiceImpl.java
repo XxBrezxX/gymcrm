@@ -34,4 +34,9 @@ public class TrainerServiceImpl implements TrainerService {
     public List<Trainer> getAllTrainers() {
         return trainerDao.findAll();
     }
+
+    @Override
+    public void deleteAll() {
+        trainerDao.deleteAll();
+    }
 }
