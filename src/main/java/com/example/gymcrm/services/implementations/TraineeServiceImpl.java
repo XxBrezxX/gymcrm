@@ -40,4 +40,9 @@ public class TraineeServiceImpl implements TraineeService {
         return traineeDao.findAll();
     }
 
+    @Override
+    public void deleteAll() {
+        traineeDao.deleteAll();
+    }
+
 }

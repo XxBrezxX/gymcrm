@@ -40,7 +40,8 @@ public class UserServiceImpl implements UserService{
         return userDao.findAll();
     }
     
-    public void eraseAll(){
+    @Override
+    public void deleteAll(){
         userDao.deleteAll();
     }
     
