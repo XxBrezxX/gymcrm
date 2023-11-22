@@ -14,4 +14,6 @@ public interface TraineeService {
     Trainee getTraineeById(Long id);
 
     List<Trainee> getAllTrainees();
+
+    void deleteAll();
 }
