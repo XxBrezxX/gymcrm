@@ -30,12 +30,6 @@ public class InitDataBean {
             userServiceImpl.deleteAll();
             trainingTypeServiceImpl.deleteAll();
 
-            User user1 = new User(null, "Yessica", "Apolinar", "laYess", "123", true);
-            User user2 = new User(null, "Bryan", "Hernandez", "ItsBrez", "123", true);
-
-            userServiceImpl.createUser(user1);
-            userServiceImpl.createUser(user2);
-
             TrainingType trainingType1 = new TrainingType(null, "Intense");
             TrainingType trainingType2 = new TrainingType(null, "Easy");
             TrainingType trainingType3 = new TrainingType(null, "Medium");
@@ -44,18 +38,18 @@ public class InitDataBean {
             trainingTypeServiceImpl.createTrainingType(trainingType2);
             trainingTypeServiceImpl.createTrainingType(trainingType3);
 
+            User user1 = new User(null, "Bryan", "Hernandez", null, null, true);
             Trainee trainee1 = new Trainee();
             trainee1.setDateOfBith(new Date(0));
             trainee1.setAddress("Santo Tomás");
-            trainee1.setUser(user1);
+            traineeServiceImpl.createTrainee(trainee1, user1);
 
+            User user2 = new User(null, "Bryan", "Hernandez", null, null, true);
             Trainer trainer1 = new Trainer();
             trainer1.setTrainingType(trainingType1);
-            trainer1.setUser(user2);
+            trainerServiceImpl.createTrainer(trainer1, user2);
 
-            traineeServiceImpl.createTrainee(trainee1);
-            trainerServiceImpl.createTrainer(trainer1);
-
+            
             trainer1.getTrainees().add(trainee1);
             trainee1.getTrainers().add(trainer1);
 

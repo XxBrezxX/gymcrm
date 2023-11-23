@@ -2,6 +2,7 @@ package com.example.gymcrm.services;
 
 import java.util.List;
 
+
 import com.example.gymcrm.model.User;
 
 public interface UserService {
