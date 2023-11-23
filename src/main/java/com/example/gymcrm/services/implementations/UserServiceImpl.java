@@ -10,7 +10,7 @@ import com.example.gymcrm.repositories.UserDao;
 import com.example.gymcrm.services.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
@@ -39,10 +39,10 @@ public class UserServiceImpl implements UserService{
     public List<User> getAllUsers() {
         return userDao.findAll();
     }
-    
+
     @Override
-    public void deleteAll(){
+    public void deleteAll() {
         userDao.deleteAll();
     }
-    
+
 }

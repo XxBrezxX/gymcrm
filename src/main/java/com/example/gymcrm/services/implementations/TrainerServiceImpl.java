@@ -39,4 +39,8 @@ public class TrainerServiceImpl implements TrainerService {
     public void deleteAll() {
         trainerDao.deleteAll();
     }
+
+    public void deleteAllTraineeTrainerRelations() {
+        trainerDao.deleteAllTraineeTrainerRelations();
+    }
 }
