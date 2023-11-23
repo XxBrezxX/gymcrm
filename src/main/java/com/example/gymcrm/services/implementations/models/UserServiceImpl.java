@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     private final Counter counter;
@@ -41,10 +40,11 @@ public class UserServiceImpl implements UserService {
         return password.toString();
     }
 
-    public UserServiceImpl(MeterRegistry meterRegistry) {
+    public UserServiceImpl(MeterRegistry meterRegistry, PasswordEncoder passwordEncoder) {
         counter = Counter.builder("mi.contador")
                 .description("Un contador personalizado")
                 .register(meterRegistry);
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override

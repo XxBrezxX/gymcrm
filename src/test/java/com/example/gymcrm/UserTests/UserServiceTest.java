@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.UserDao;
@@ -31,7 +33,8 @@ public class UserServiceTest {
         MockitoAnnotations.openMocks(this);
 
         MeterRegistry meterRegistry = new SimpleMeterRegistry();
-        userServiceImpl = new UserServiceImpl(meterRegistry);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        userServiceImpl = new UserServiceImpl(meterRegistry, passwordEncoder);
         userServiceImpl.setUserDao(userDao);
     }
 
