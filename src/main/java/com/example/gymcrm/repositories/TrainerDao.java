@@ -15,4 +15,6 @@ public interface TrainerDao extends JpaRepository<Trainer, Long> {
     @Modifying
     @Query(value = "DELETE FROM trainee_trainer", nativeQuery = true)
     void deleteAllTraineeTrainerRelations();
+
+    Trainer findByUserId(Long id);
 }

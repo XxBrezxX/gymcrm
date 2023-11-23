@@ -8,4 +8,6 @@ import com.example.gymcrm.model.Trainee;
 @Repository
 public interface TraineeDao extends JpaRepository<Trainee, Long> {
 
+    Trainee findByUserId(Long id);
+
 }

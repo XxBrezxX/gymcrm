@@ -1,14 +1,15 @@
-package com.example.gymcrm.services.implementations;
+package com.example.gymcrm.services.implementations.models;
 
 import java.security.SecureRandom;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.UserDao;
-import com.example.gymcrm.services.UserService;
+import com.example.gymcrm.services.pureServices.UserService;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
@@ -19,6 +20,14 @@ public class UserServiceImpl implements UserService {
     private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int PASSWORD_LENGTH = 10;
     private static final SecureRandom random = new SecureRandom();
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private final Counter counter;
 
     private String generateRandomPassword() {
         StringBuilder password = new StringBuilder(PASSWORD_LENGTH);
@@ -32,32 +41,30 @@ public class UserServiceImpl implements UserService {
         return password.toString();
     }
 
-    private final Counter counter;
-
     public UserServiceImpl(MeterRegistry meterRegistry) {
         counter = Counter.builder("mi.contador")
                 .description("Un contador personalizado")
                 .register(meterRegistry);
     }
 
-    @Autowired
-    private UserDao userDao;
-
     @Override
     public User createUser(User user) {
         String baseUsername = user.getFirstName().concat(".").concat(user.getLastName());
         String newUsername = baseUsername;
 
-        List<User> existingUsers = userDao.findByUsername(newUsername);
+        User existingUsers = userDao.findByUsername(newUsername);
         int i = 1;
-        while (!existingUsers.isEmpty()) {
+        while (existingUsers != null) {
             newUsername = baseUsername.concat(String.valueOf(i));
             existingUsers = userDao.findByUsername(newUsername);
             i++;
         }
 
+        // TO-DO: Borrar esta parte en un futuro para implementar seguridad al 100%
+        String password = generateRandomPassword();
+        System.out.println("################User:".concat(newUsername).concat(" password:").concat(password));
         user.setUsername(newUsername);
-        user.setPassword(generateRandomPassword());
+        user.setPassword(passwordEncoder.encode(password));
 
         // Uso de Prometheus para saber numero de creates hechos
         counter.increment();
@@ -90,7 +97,7 @@ public class UserServiceImpl implements UserService {
         userDao.deleteAll();
     }
 
-    public List<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userDao.findByUsername(username);
     }
 

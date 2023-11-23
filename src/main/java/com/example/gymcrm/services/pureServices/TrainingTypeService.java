@@ -1,4 +1,4 @@
-package com.example.gymcrm.services;
+package com.example.gymcrm.services.pureServices;
 
 import java.util.List;
 

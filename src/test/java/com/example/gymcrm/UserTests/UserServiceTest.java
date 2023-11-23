@@ -14,7 +14,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.UserDao;
-import com.example.gymcrm.services.implementations.UserServiceImpl;
+import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;

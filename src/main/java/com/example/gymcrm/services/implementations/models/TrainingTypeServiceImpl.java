@@ -1,4 +1,4 @@
-package com.example.gymcrm.services.implementations;
+package com.example.gymcrm.services.implementations.models;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.gymcrm.model.TrainingType;
 import com.example.gymcrm.repositories.TrainingTypeDao;
-import com.example.gymcrm.services.TrainingTypeService;
+import com.example.gymcrm.services.pureServices.TrainingTypeService;
 
 @Service
 public class TrainingTypeServiceImpl implements TrainingTypeService {

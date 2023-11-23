@@ -9,10 +9,10 @@ import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.Trainer;
 import com.example.gymcrm.model.TrainingType;
 import com.example.gymcrm.model.User;
-import com.example.gymcrm.services.implementations.TraineeServiceImpl;
-import com.example.gymcrm.services.implementations.TrainerServiceImpl;
-import com.example.gymcrm.services.implementations.TrainingTypeServiceImpl;
-import com.example.gymcrm.services.implementations.UserServiceImpl;
+import com.example.gymcrm.services.implementations.models.TraineeServiceImpl;
+import com.example.gymcrm.services.implementations.models.TrainerServiceImpl;
+import com.example.gymcrm.services.implementations.models.TrainingTypeServiceImpl;
+import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
 @Configuration
 public class InitDataBean {
