@@ -17,9 +17,11 @@ import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.UserDao;
 import com.example.gymcrm.services.implementations.UserServiceImpl;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+
 public class UserServiceTest {
 
-    @InjectMocks
     private UserServiceImpl userServiceImpl;
 
     @Mock
@@ -28,6 +30,10 @@ public class UserServiceTest {
     @BeforeEach
     public void init() {
         MockitoAnnotations.openMocks(this);
+
+        MeterRegistry meterRegistry = new SimpleMeterRegistry();
+        userServiceImpl = new UserServiceImpl(meterRegistry);
+        userServiceImpl.setUserDao(userDao);
     }
 
     private User generateTestUser() {

@@ -10,6 +10,9 @@ import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.UserDao;
 import com.example.gymcrm.services.UserService;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,6 +30,14 @@ public class UserServiceImpl implements UserService {
         }
 
         return password.toString();
+    }
+
+    private final Counter counter;
+
+    public UserServiceImpl(MeterRegistry meterRegistry) {
+        counter = Counter.builder("mi.contador")
+                .description("Un contador personalizado")
+                .register(meterRegistry);
     }
 
     @Autowired
@@ -47,6 +58,10 @@ public class UserServiceImpl implements UserService {
 
         user.setUsername(newUsername);
         user.setPassword(generateRandomPassword());
+
+        // Uso de Prometheus para saber numero de creates hechos
+        counter.increment();
+
         return userDao.save(user);
     }
 
@@ -77,6 +92,10 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findByUsername(String username) {
         return userDao.findByUsername(username);
+    }
+
+    public void setUserDao(UserDao userDao2) {
+        this.userDao = userDao2;
     }
 
 }
