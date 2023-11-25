@@ -13,6 +13,7 @@ import com.example.gymcrm.model.TrainerWorkloadRequest.ActionType;
 import com.example.gymcrm.repositories.TrainingDao;
 import com.example.gymcrm.services.implementations.web.TrainerWorkloadService;
 import com.example.gymcrm.services.pureServices.TrainingService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Service
 public class TrainingServiceImpl implements TrainingService {
@@ -23,6 +24,7 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private TrainerWorkloadService trainerWorkloadService;
 
+    @HystrixCommand
     @Override
     public Training createTraining(Training training) {
         TrainerWorkloadRequest tWorkloadRequest = new TrainerWorkloadRequest();
