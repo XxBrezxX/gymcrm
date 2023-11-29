@@ -67,7 +67,7 @@ public class UserDaoTest {
         List<User> usersFound = userDao.findAll();
 
         assertNotNull(usersFound);
-        assertEquals(usersFound.size(), 3);
+        assertEquals(3, usersFound.size());
     }
 
     @Test
