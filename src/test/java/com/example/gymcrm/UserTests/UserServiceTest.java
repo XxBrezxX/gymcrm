@@ -53,15 +53,24 @@ public class UserServiceTest {
 
     @Test
     public void testCreateUser_userCreated_returnUser() {
+        // prepare user object to be created
         User user = generateTestUser();
-        user.setId(1L);
 
+        // configure the userDao to return this same user object when saving the user
         when(userDao.save(user)).thenReturn(user);
 
+        // call the method to create the user object
         User result = userServiceImpl.createUser(user);
 
+        // verify that the result is not null and contains the expected values
         assertNotNull(result);
-        assertEquals(1, result.getId());
+        assertEquals(user.getId(), result.getId());
+        assertEquals(user.getFirstName(), result.getFirstName());
+        assertEquals(user.getLastName(), result.getLastName());
+        // add other assertions for the other properties of the user object
+
+        // verify that the userDao.save method was called exactly once with the expected
+        // user object
         verify(userDao, times(1)).save(user);
     }
 
