@@ -17,8 +17,6 @@ import lombok.*;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,4 +33,5 @@ public class Trainee {
     @ManyToMany
     @JoinTable(name = "trainee_trainer", joinColumns = @JoinColumn(name = "trainee_id"), inverseJoinColumns = @JoinColumn(name = "trainer_id"))
     private Set<Trainer> trainers = new HashSet<>();
+
 }

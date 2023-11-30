@@ -1,43 +1,45 @@
 package com.example.gymcrm.configuration;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.example.gymcrm.services.implementations.models.TraineeServiceImpl;
 import com.example.gymcrm.services.implementations.models.TrainerServiceImpl;
 import com.example.gymcrm.services.implementations.models.TrainingServiceImpl;
 import com.example.gymcrm.services.implementations.models.TrainingTypeServiceImpl;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
 public class InitDataBeanTest {
 
-    @Mock
+    // Mocks necesarios
+    @MockBean
     private UserServiceImpl userServiceImpl;
 
-    @Mock
+    @MockBean
     private TrainingTypeServiceImpl trainingTypeServiceImpl;
 
-    @Mock
+    @MockBean
     private TraineeServiceImpl traineeServiceImpl;
 
-    @Mock
+    @MockBean
     private TrainerServiceImpl trainerServiceImpl;
 
-    @Mock
+    @MockBean
     private TrainingServiceImpl trainingServiceImpl;
 
-    @Mock
-    private InitDataBean initDataBean;
+    // Clase a probar
+    private InitDataBean initDataBean = new InitDataBean();
 
     @Test
     public void testInitData() {
-        MockitoAnnotations.openMocks(this);
 
+        // Ejecuta initData() manualmente
         initDataBean.initData(userServiceImpl, trainingTypeServiceImpl, traineeServiceImpl, trainerServiceImpl,
                 trainingServiceImpl);
+
+        // Verifica que los datos se hayan generado correctamente
         assertNotNull(userServiceImpl.getAllUsers());
         assertNotNull(trainingTypeServiceImpl.getAllTrainingTypes());
         assertNotNull(traineeServiceImpl.getAllTrainees());

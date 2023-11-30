@@ -31,12 +31,10 @@ public class WorkloadServiceImpl implements WorkloadService {
     @Override
     public Mono<TrainerMonthlySummary> getSummary(String trainerUsername) {
         return webClient.get()
-                .uri(uriBuilder -> {
-                    return uriBuilder
-                            .path(workloadUrl.concat("/workload"))
-                            .queryParam("trainerUsername", trainerUsername)
-                            .build();
-                })
+                .uri(uriBuilder -> uriBuilder
+                        .path(workloadUrl.concat("/workload"))
+                        .queryParam("trainerUsername", trainerUsername)
+                        .build())
                 .retrieve()
                 .bodyToMono(TrainerMonthlySummary.class);
     }
