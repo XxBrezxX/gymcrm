@@ -1,4 +1,4 @@
-package com.example.gymcrm.UserTests;
+package com.example.gymcrm.models.UserTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,24 +53,16 @@ public class UserServiceTest {
 
     @Test
     public void testCreateUser_userCreated_returnUser() {
-        // prepare user object to be created
         User user = generateTestUser();
 
-        // configure the userDao to return this same user object when saving the user
         when(userDao.save(user)).thenReturn(user);
 
-        // call the method to create the user object
         User result = userServiceImpl.createUser(user);
 
-        // verify that the result is not null and contains the expected values
         assertNotNull(result);
         assertEquals(user.getId(), result.getId());
         assertEquals(user.getFirstName(), result.getFirstName());
         assertEquals(user.getLastName(), result.getLastName());
-        // add other assertions for the other properties of the user object
-
-        // verify that the userDao.save method was called exactly once with the expected
-        // user object
         verify(userDao, times(1)).save(user);
     }
 
@@ -127,5 +119,41 @@ public class UserServiceTest {
 
         assertEquals(2, result.size());
         verify(userDao, times(1)).findAll();
+    }
+
+    @Test
+    void testCreateUser_duplicates() {
+        // Define a user object with duplicate first and last name
+        User user1 = new User();
+        user1.setFirstName("John");
+        user1.setLastName("Doe");
+        user1.setUsername(null);
+        user1.setPassword(null);
+        user1.setIsActive(true);
+
+        // Define existing users with the same base username
+        User existingUser1 = new User();
+        existingUser1.setFirstName("John");
+        existingUser1.setLastName("Doe");
+        existingUser1.setUsername("John.Doe");
+        existingUser1.setPassword("password");
+        existingUser1.setIsActive(true);
+        User existingUser2 = new User();
+        existingUser2.setFirstName("John");
+        existingUser2.setLastName("Doe");
+        existingUser2.setUsername("John.Doe1");
+        existingUser2.setPassword("password");
+        existingUser2.setIsActive(true);
+        // Return existing users in the DAO
+        when(userDao.findByUsername("John.Doe")).thenReturn(existingUser1);
+        when(userDao.findByUsername("John.Doe1")).thenReturn(existingUser2);
+        when(userDao.save(user1)).thenReturn(user1);
+
+        // Call the createUser method to add the user to the system
+        User resultUser = userServiceImpl.createUser(user1);
+
+        // Verify that the newUser has a unique username
+        assertNotNull(resultUser.getUsername());
+        assertEquals("John.Doe2", resultUser.getUsername());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.gymcrm.UserTests;
+package com.example.gymcrm.models.UserTests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

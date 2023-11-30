@@ -1,5 +1,8 @@
 package com.example.gymcrm.services.implementations.security;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,9 +14,16 @@ import com.example.gymcrm.repositories.TraineeDao;
 import com.example.gymcrm.repositories.TrainerDao;
 import com.example.gymcrm.repositories.UserDao;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 
 @Service
+@Setter
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
@@ -36,20 +46,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // Verifica si el usuario es un Trainer o Trainee
         boolean isTrainer = trainerDao.findByUserId(user.getId()) != null;
         boolean isTrainee = traineeDao.findByUserId(user.getId()) != null;
-        
+
         // Construye la instancia de UserDetails según los roles de Trainer y Trainee
         UserBuilder userBuilder = org.springframework.security.core.userdetails.User
-                                  .withUsername(user.getUsername())
-                                  .password(user.getPassword());
-        
+                .withUsername(user.getUsername())
+                .password(user.getPassword());
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
         if (isTrainer) {
-            userBuilder.authorities("ROLE_TRAINER");
-        }
-        
-        if (isTrainee) {
-            userBuilder.authorities("ROLE_TRAINEE");
+            authorities.add(new SimpleGrantedAuthority("ROLE_TRAINER"));
         }
 
-        return userBuilder.build();
+        if (isTrainee) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_TRAINEE"));
+        }
+
+        return userBuilder.authorities(authorities).build();
     }
 }
