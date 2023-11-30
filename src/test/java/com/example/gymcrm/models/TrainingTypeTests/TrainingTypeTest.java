@@ -50,7 +50,7 @@ public class TrainingTypeTest {
         assertEquals(trainingType1, trainingType3); // comprobamos que dos objetos con los mismos campos son iguales
         assertNotEquals(trainingType1, trainingType2); // comprobamos que dos objetos con campos diferentes no son
                                                        // iguales
-        assertNotEquals(trainingType1, null); // comprobamos que un objeto no es igual a null
+        assertNotEquals(null, trainingType1); // comprobamos que un objeto no es igual a null
         assertNotEquals(trainingType1, new Object()); // comprobamos que un objeto no es igual a otro objeto de otra
                                                       // clase
         assertEquals(trainingType1.hashCode(), trainingType3.hashCode()); // comprobamos que dos objetos iguales tienen

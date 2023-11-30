@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
         // TO-DO: Borrar esta parte en un futuro para implementar seguridad al 100%
         String password = generateRandomPassword();
-        System.out.println("################User:".concat(newUsername).concat(" password:").concat(password));
+        System.err.println("################User:".concat(newUsername).concat(" password:").concat(password));
         user.setUsername(newUsername);
         user.setPassword(passwordEncoder.encode(password));
 

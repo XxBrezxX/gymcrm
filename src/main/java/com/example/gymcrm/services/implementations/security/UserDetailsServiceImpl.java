@@ -14,8 +14,6 @@ import com.example.gymcrm.repositories.TraineeDao;
 import com.example.gymcrm.repositories.TrainerDao;
 import com.example.gymcrm.repositories.UserDao;
 
-import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.security.core.GrantedAuthority;

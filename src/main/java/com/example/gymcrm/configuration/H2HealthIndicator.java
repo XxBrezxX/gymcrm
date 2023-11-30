@@ -18,14 +18,15 @@ public class H2HealthIndicator implements HealthIndicator {
 
     @Override
     public Health health() {
+        String message = new String("mensaje");
         try (Connection connection = dataSource.getConnection()) {
             if (connection.isValid(1)) {
-                return Health.up().withDetail("mensaje", "Conexión exitosa a H2").build();
+                return Health.up().withDetail(message, "Conexión exitosa a H2").build();
             } else {
-                return Health.down().withDetail("mensaje", "No se puede conectar a H2").build();
+                return Health.down().withDetail(message, "No se puede conectar a H2").build();
             }
         } catch (Exception e) {
-            return Health.down().withDetail("mensaje", "Error al conectar a H2: " + e.getMessage()).build();
+            return Health.down().withDetail(message, "Error al conectar a H2: " + e.getMessage()).build();
         }
     }
 }

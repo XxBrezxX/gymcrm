@@ -1,5 +1,6 @@
 package com.example.gymcrm.models.UserTests;
 
+import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -40,7 +41,7 @@ public class UserDaoTest {
 
         assertNotNull(savedUser);
         assertNotNull(savedUser.getId());
-        assertNotNull(savedUser.getFirstName().contentEquals("TestUser"));
+        assertTrue(savedUser.getFirstName().contentEquals("TestUser"));
     }
 
     @Test
@@ -80,8 +81,8 @@ public class UserDaoTest {
         User updated = userDao.save(user);
 
         assertNotNull(updated);
-        assertEquals(user, updated);
-        assertTrue(user.getId() == updated.getId());
+        assertSame(user, updated);
+        assertSame(user.getId(), updated.getId());
     }
 
     @Test
