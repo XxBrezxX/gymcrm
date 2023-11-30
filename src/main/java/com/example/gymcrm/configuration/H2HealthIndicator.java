@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 @Component
 public class H2HealthIndicator implements HealthIndicator {
@@ -25,7 +26,7 @@ public class H2HealthIndicator implements HealthIndicator {
             } else {
                 return Health.down().withDetail(message, "No se puede conectar a H2").build();
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return Health.down().withDetail(message, "Error al conectar a H2: " + e.getMessage()).build();
         }
     }

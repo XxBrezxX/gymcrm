@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @DataJpaTest
 class UserDetailsServiceImplTest {
@@ -57,7 +58,11 @@ class UserDetailsServiceImplTest {
 
         assertEquals(userDetails.getUsername(), username);
 
-        Set<SimpleGrantedAuthority> authoritiesSet = (Set<SimpleGrantedAuthority>) userDetails.getAuthorities();
+        Set<SimpleGrantedAuthority> authoritiesSet = userDetails.getAuthorities()
+                .stream()
+                .map(auth -> new SimpleGrantedAuthority(auth.getAuthority()))
+                .collect(Collectors.toSet());
+
         List<String> authorities = new ArrayList<>();
         for (SimpleGrantedAuthority authority : authoritiesSet) {
             authorities.add(authority.toString());
@@ -81,7 +86,11 @@ class UserDetailsServiceImplTest {
 
         assertEquals(userDetails.getUsername(), username);
 
-        Set<SimpleGrantedAuthority> authoritiesSet = (Set<SimpleGrantedAuthority>) userDetails.getAuthorities();
+        Set<SimpleGrantedAuthority> authoritiesSet = userDetails.getAuthorities()
+                .stream()
+                .map(auth -> new SimpleGrantedAuthority(auth.getAuthority()))
+                .collect(Collectors.toSet());
+
         List<String> authorities = new ArrayList<>();
         for (SimpleGrantedAuthority authority : authoritiesSet) {
             authorities.add(authority.toString());

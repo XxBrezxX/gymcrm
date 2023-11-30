@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
@@ -43,5 +44,23 @@ class H2HealthIndicatorTest {
         assertNotNull(health);
         assertEquals("DOWN", health.getStatus().getCode());
         assertEquals("No se puede conectar a H2", health.getDetails().get("mensaje"));
+    }
+
+    @Test
+    public void testHealthDown() throws SQLException {
+        DataSource mockDataSource = mock(DataSource.class);
+        Connection mockConnection = mock(Connection.class);
+        SQLException exception = new SQLException("Error");
+        String message = "mensaje";
+
+        when(mockDataSource.getConnection()).thenReturn(mockConnection);
+        when(mockConnection.isValid(1)).thenThrow(exception);
+
+        H2HealthIndicator healthIndicator = new H2HealthIndicator(mockDataSource);
+        Health health = healthIndicator.health();
+        mockConnection.close();
+
+        assertEquals("DOWN", health.getStatus().getCode());
+        assertEquals("Error al conectar a H2: Error", health.getDetails().get(message));
     }
 }
