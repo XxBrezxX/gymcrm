@@ -3,12 +3,14 @@ package com.example.gymcrm.model;
 import java.util.Map;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class TrainerMonthlySummary {
     private String trainerUsername;
     private String trainerFirstName;
@@ -16,6 +18,4 @@ public class TrainerMonthlySummary {
     private String trainerStatus;
     private Map<Integer, Map<String, Integer>> yearlyTrainingSummary;
 
-    // Getters y setters para cada propiedad
-    // ...
 }
