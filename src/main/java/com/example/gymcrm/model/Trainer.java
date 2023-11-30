@@ -15,7 +15,8 @@ import javax.persistence.OneToOne;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trainer {
