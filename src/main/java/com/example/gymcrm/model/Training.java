@@ -14,7 +14,8 @@ import javax.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Training {
