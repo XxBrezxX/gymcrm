@@ -1,50 +1,43 @@
 package com.example.gymcrm.models.TraineeTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.junit.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.gymcrm.model.Trainee;
-import com.example.gymcrm.model.User;
+import com.example.gymcrm.model.Trainer;
 
-@DataJpaTest
+@SpringBootTest
 class TraineeTest {
+    @Test
+    void testAllArgsConstructor() {
+        Trainee trainee = new Trainee(1L, Date.valueOf(LocalDate.of(2000, 1, 1)), "123 Main St.", null, null);
 
-    private Trainee generateTrainee(String name) {
-        User testUser = new User();
-        testUser.setFirstName(name);
-
-        Trainee trainee1 = new Trainee();
-        trainee1.setAddress("TestAddress");
-        trainee1.setDateOfBith(new Date(0));
-        trainee1.setTrainers(null);
-        trainee1.setUser(testUser);
-
-        return trainee1;
+        assertEquals(1L, trainee.getId());
+        assertEquals(Date.valueOf(LocalDate.of(2000, 1, 1)), trainee.getDateOfBith());
+        assertEquals("123 Main St.", trainee.getAddress());
+        assertNull(trainee.getUser());
+        assertNull(trainee.getTrainers());
     }
 
     @Test
-    void testCreateTrainee() {
-        Trainee trainee1 = generateTrainee("Trainee1");
-        Trainee trainee2 = generateTrainee("Trainee2");
-        Trainee trainee3 = generateTrainee("Trainee1");
-
-        assertEquals(trainee1, trainee3);
-        assertNotEquals(trainee1, trainee2);
-    }
-
-    @Test
-    void testToString() {
+    void testSetTrainers() {
         Trainee trainee = new Trainee();
         trainee.setId(1L);
-        trainee.setDateOfBith(Date.valueOf("1990-01-01"));
-        trainee.setAddress("123 Main Street");
-        System.out.println(trainee);
-        assertTrue(true);
+
+        Set<Trainer> trainers = new HashSet<>();
+        trainee.setTrainers(trainers);
+
+        assertSame(trainers, trainee.getTrainers());
+        assertEquals(1L, trainee.getId());
     }
+
 }

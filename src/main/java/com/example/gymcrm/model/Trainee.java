@@ -16,7 +16,10 @@ import javax.persistence.OneToOne;
 import lombok.*;
 
 @Entity
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
