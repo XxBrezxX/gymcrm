@@ -2,6 +2,7 @@ package com.example.gymcrm.services.implementations.models;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private static final String CHAR_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int PASSWORD_LENGTH = 10;
     private static final SecureRandom random = new SecureRandom();
+    private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
     private UserDao userDao;
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
         // TO-DO: Borrar esta parte en un futuro para implementar seguridad al 100%
         String password = generateRandomPassword();
-        System.err.println("################User:".concat(newUsername).concat(" password:").concat(password));
+        LOGGER.info("################User:".concat(newUsername).concat(" password:").concat(password));
         user.setUsername(newUsername);
         user.setPassword(passwordEncoder.encode(password));
 

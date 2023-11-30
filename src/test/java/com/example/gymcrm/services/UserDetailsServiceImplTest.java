@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @DataJpaTest
-public class UserDetailsServiceImplTest {
+class UserDetailsServiceImplTest {
 
     private UserDao userDaoMock;
     private TraineeDao traineeDaoMock;

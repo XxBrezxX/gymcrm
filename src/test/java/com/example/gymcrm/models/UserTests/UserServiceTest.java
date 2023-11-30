@@ -23,7 +23,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
 @DataJpaTest
-public class UserServiceTest {
+class UserServiceTest {
 
     private UserServiceImpl userServiceImpl;
 
@@ -31,7 +31,7 @@ public class UserServiceTest {
     private UserDao userDao;
 
     @BeforeEach
-    public void init() {
+    void init() {
         MockitoAnnotations.openMocks(this);
 
         MeterRegistry meterRegistry = new SimpleMeterRegistry();
@@ -52,7 +52,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testCreateUser_userCreated_returnUser() {
+    void testCreateUser_userCreated_returnUser() {
         User user = generateTestUser();
 
         when(userDao.save(user)).thenReturn(user);
@@ -67,7 +67,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testUpdateUser_userUpdated_returnUser() {
+    void testUpdateUser_userUpdated_returnUser() {
         User user = generateTestUser();
         user.setId(1L);
 
@@ -81,7 +81,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDeleteUser_userExists_delete() {
+    void testDeleteUser_userExists_delete() {
         User user = generateTestUser();
         user.setId(1L);
 
@@ -91,7 +91,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUserById_userExists_returnUser() {
+    void testGetUserById_userExists_returnUser() {
         User user = generateTestUser();
         user.setId(1L);
 
@@ -105,7 +105,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetAllUsers() {
+    void testGetAllUsers() {
         User user1 = generateTestUser();
         User user2 = generateTestUser();
         User user3 = generateTestUser();

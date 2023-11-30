@@ -17,7 +17,7 @@ import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.UserDao;
 
 @DataJpaTest
-public class UserDaoTest {
+class UserDaoTest {
 
     @Autowired
     private UserDao userDao;
@@ -34,7 +34,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testSaveUser() {
+    void testSaveUser() {
         User user = generateTestUser();
 
         User savedUser = userDao.save(user);
@@ -45,7 +45,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         User user = generateTestUser();
         userDao.save(user);
 
@@ -56,7 +56,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         User user1 = generateTestUser();
         User user2 = generateTestUser();
         User user3 = generateTestUser();
@@ -72,7 +72,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testUpdateUser() {
+    void testUpdateUser() {
         User user = generateTestUser();
         userDao.save(user);
 
@@ -86,7 +86,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testDeleteById() {
+    void testDeleteById() {
         User user = generateTestUser();
         userDao.save(user);
 

@@ -18,7 +18,7 @@ public class H2HealthIndicator implements HealthIndicator {
 
     @Override
     public Health health() {
-        String message = new String("mensaje");
+        String message = "mensaje";
         try (Connection connection = dataSource.getConnection()) {
             if (connection.isValid(1)) {
                 return Health.up().withDetail(message, "Conexión exitosa a H2").build();
