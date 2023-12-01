@@ -13,24 +13,25 @@ class UserTest {
     @Test
     void testGettersAndSetters() {
         User user = new User(1L, "John", "Doe", "johndoe", "password", true);
-        assertEquals(1L, user.getId()); // test getter
-        assertEquals("John", user.getFirstName()); // test getter
-        assertEquals("Doe", user.getLastName()); // test getter
-        assertEquals("johndoe", user.getUsername()); // test getter
-        assertEquals("password", user.getPassword()); // test getter
-        assertTrue(user.getIsActive()); // test getter
-        user.setId(2L); // test setter
-        assertEquals(2L, user.getId()); // test getter after setter
-        user.setFirstName("Jane"); // test setter
-        assertEquals("Jane", user.getFirstName()); // test getter after setter
-        user.setLastName("Doe"); // test setter
-        assertEquals("Doe", user.getLastName()); // test getter after setter
-        user.setUsername("janedoe"); // test setter
-        assertEquals("janedoe", user.getUsername()); // test getter after setter
-        user.setPassword("new_password"); // test setter
-        assertEquals("new_password", user.getPassword()); // test getter after setter
-        user.setIsActive(false); // test setter
-        assertFalse(user.getIsActive()); // test getter after setter
+        assertSame(1L, user.getId());
+        assertSame("John", user.getFirstName());
+        assertSame("Doe", user.getLastName());
+        assertSame("johndoe", user.getUsername());
+        assertSame("password", user.getPassword());
+        assertTrue(user.getIsActive());
+
+        user.setId(2L);
+        assertSame(2L, user.getId());
+        user.setFirstName("Jane");
+        assertSame("Jane", user.getFirstName());
+        user.setLastName("Doe");
+        assertSame("Doe", user.getLastName());
+        user.setUsername("janedoe");
+        assertSame("janedoe", user.getUsername());
+        user.setPassword("new_password");
+        assertSame("new_password", user.getPassword());
+        user.setIsActive(false);
+        assertFalse(user.getIsActive());
     }
 
 }
