@@ -4,12 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -105,23 +106,6 @@ class UserServiceTest {
     }
 
     @Test
-    void testGetAllUsers() {
-        User user1 = generateTestUser();
-        User user2 = generateTestUser();
-        User user3 = generateTestUser();
-        user1.setId(1L);
-        user2.setId(2L);
-        user3.setId(3L);
-
-        when(userDao.findAll()).thenReturn(Arrays.asList(user1, user2));
-
-        List<User> result = userDao.findAll();
-
-        assertEquals(2, result.size());
-        verify(userDao, times(1)).findAll();
-    }
-
-    @Test
     void testCreateUser_duplicates() {
         // Define a user object with duplicate first and last name
         User user1 = new User();
@@ -155,5 +139,36 @@ class UserServiceTest {
         // Verify that the newUser has a unique username
         assertNotNull(resultUser.getUsername());
         assertEquals("John.Doe2", resultUser.getUsername());
+    }
+
+    @Test
+    void testGetAllUsers() {
+        List<User> users = new ArrayList<>();
+
+        when(userDao.findAll()).thenReturn(users);
+
+        List<User> response = userServiceImpl.getAllUsers();
+
+        assertEquals(users, response);
+    }
+
+    @Test
+    void testDeleteAll() {
+        userServiceImpl.deleteAll();
+
+        verify(userDao, Mockito.times(1)).deleteAll();
+    }
+
+    @Test
+    void testFindByUsername() {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("user");
+
+        when(userDao.findByUsername(user.getUsername())).thenReturn(user);
+
+        User response = userServiceImpl.findByUsername(user.getUsername());
+
+        assertEquals(user.getId(), response.getId());
     }
 }
