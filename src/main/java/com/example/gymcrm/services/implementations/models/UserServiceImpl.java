@@ -107,4 +107,16 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao2;
     }
 
+    @Override
+    public void updatePassword(String password, User user) {
+        String encodedPassword = passwordEncoder.encode(password);
+        user.setPassword(encodedPassword);
+
+        userDao.save(user);
+        // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        // Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), encodedPassword,
+        //         auth.getAuthorities());
+        // SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
+
 }

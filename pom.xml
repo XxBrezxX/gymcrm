@@ -124,6 +124,12 @@
 			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- HTML Development -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>

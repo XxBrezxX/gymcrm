@@ -55,6 +55,9 @@ public class InitDataBean {
             trainer1.setTrainingType(trainingType1);
             trainerServiceImpl.createTrainer(trainer1, user2);
 
+            // DELETE THIS
+            userServiceImpl.updatePassword("123", user2);
+
             trainer1.getTrainees().add(trainee1);
             trainee1.getTrainers().add(trainer1);
 
