@@ -1,15 +1,17 @@
 package com.example.gymcrm.services;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.example.gymcrm.model.TrainerMonthlySummary;
+import com.example.gymcrm.model.TrainerWorkloadRequest;
 import com.example.gymcrm.services.implementations.web.TrainerWorkloadService;
 import com.example.gymcrm.services.web.WorkloadServiceImpl;
 
@@ -25,17 +27,23 @@ class TrainerWorkloadServiceTest {
     private TrainerWorkloadService trainerWorkloadService;
 
     @Test
+    void testSendWorkload() {
+        TrainerWorkloadRequest request = new TrainerWorkloadRequest();
+        request.setActive(true);
+
+        trainerWorkloadService.updateWorkload(request);
+
+        verify(workloadServiceImpl, atLeastOnce()).sendWorkload(request);
+    }
+
+    @Test
     void testGetSummary() {
-        MockitoAnnotations.openMocks(this);
+        TrainerMonthlySummary trainerMonthlySummary = new TrainerMonthlySummary();
 
-        String trainerUsername = "Bryan.Hernandez";
-        TrainerMonthlySummary summary = new TrainerMonthlySummary();
+        when(workloadServiceImpl.getSummary("user")).thenReturn(Mono.just(trainerMonthlySummary));
 
-        when(workloadServiceImpl.getSummary(trainerUsername))
-                .thenReturn(Mono.just(summary));
+        Mono<TrainerMonthlySummary> response = trainerWorkloadService.getSummary("user");
 
-        Mono<TrainerMonthlySummary> result = trainerWorkloadService.getSummary(trainerUsername);
-
-        assertEquals(summary, result.block());
+        assertEquals(trainerMonthlySummary, response.block());
     }
 }
