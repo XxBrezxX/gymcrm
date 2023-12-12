@@ -15,4 +15,6 @@ public interface TrainerService {
     List<Trainer> getAllTrainers();
 
     void deleteAll();
+
+    Trainer getTrainerByUsername(String username);
 }

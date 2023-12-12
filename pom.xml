@@ -179,4 +179,10 @@
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>local</id>
+		</profile>
+	</profiles>
+
 </project>

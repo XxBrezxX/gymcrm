@@ -49,4 +49,10 @@ public class TrainerServiceImpl implements TrainerService {
     public void deleteAllTraineeTrainerRelations() {
         trainerDao.deleteAllTraineeTrainerRelations();
     }
+
+    @Override
+    public Trainer getTrainerByUsername(String username) {
+        return trainerDao.findByUser_Username(username)
+                .orElseThrow(() -> new RuntimeException("No se encontró el Trainer con el username: " + username));
+    }
 }
