@@ -13,34 +13,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+                        throws Exception {
+                return authenticationConfiguration.getAuthenticationManager();
+        }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(
-                requests -> requests.antMatchers("/public/**").permitAll()
-                        .antMatchers("/h2-console/**").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(
-                        login -> login.loginPage("/login").permitAll())
-                .logout(
-                        logout -> logout.permitAll())
-                .csrf(csrf -> csrf
-                        .ignoringAntMatchers("/h2-console/**"))
-                .headers(headers -> headers
-                        .frameOptions()
-                        .sameOrigin());
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http.authorizeRequests(
+                                requests -> requests.antMatchers("/public/**").permitAll()
+                                                .antMatchers("/h2-console/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .formLogin(
+                                                login -> login.loginPage("/login").permitAll()
+                                                                .defaultSuccessUrl("/home", true))
+                                .logout(
+                                                logout -> logout.permitAll())
+                                .csrf(csrf -> csrf
+                                                .ignoringAntMatchers("/h2-console/**"))
+                                .headers(headers -> headers
+                                                .frameOptions()
+                                                .sameOrigin());
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
 }
