@@ -1,0 +1,38 @@
+.background {
+    position: fixed;
+    /* Hace que el div cubra todo el cuerpo */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url('/images/wp2356164.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: -1;
+    /* Asegura que el div esté detrás del contenido del cuerpo */
+}
+
+.background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.save-button {
+    background-color: #bb0000;
+    color: white;
+    font-size: 1.5vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.25vh;
+}
+
+.save-button:hover {
+    background-color: rgb(255, 216, 41);
+    color: black;
+}

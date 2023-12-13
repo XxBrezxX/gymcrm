@@ -5,24 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Crear/Actualizar Usuario</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="/css/common.css">
 </head>
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    <header th:insert="navbar :: body"></header>
+    <div class="vh-100 vw-100 d-flex flex-column background"></div>
+    <header th:insert="navbar"></header>
 
     <div class="container py-3">
-        <h3>
+        <h3 class="text-white my-4">
             Trainee
-            <small class="text-body-secondary">Create</small>
+            <small style="color: rgb(255, 208, 0);">Create</small>
         </h3>
         <form action="#" th:action="@{/trainees/register}" method="post">
-            <div th:object="${user}">
+            <div th:object="${user}" class="text-white">
                 <div class="mb-3"><input type="hidden" th:field="*{id}" /></div>
 
                 <div class="mb-3">
@@ -34,7 +36,7 @@
                     <input type="text" id="lastName" th:field="*{lastName}" class="form-control" required />
                 </div>
             </div>
-            <div th:object="${trainee}">
+            <div th:object="${trainee}" class="text-white">
                 <div class="mb-3"><input type="hidden" th:field="*{id}" /></div>
 
                 <div class="mb-3">
@@ -47,7 +49,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn save-button my-5">Guardar</button>
         </form>
     </div>
 </body>
