@@ -43,7 +43,8 @@ class TrainerServiceImplTest {
 
         when(trainerDao.save(trainer)).thenReturn(trainer);
 
-        Trainer response = trainerServiceImpl.createTrainer(trainer, user);
+        trainer.setUser(user);
+        Trainer response = trainerServiceImpl.createTrainer(trainer);
 
         assertEquals(trainer, response);
     }

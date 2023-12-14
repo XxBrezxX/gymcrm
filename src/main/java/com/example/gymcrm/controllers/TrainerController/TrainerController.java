@@ -51,7 +51,9 @@ public class TrainerController {
     @PostMapping("/register")
     public String registerTrainer(@ModelAttribute("user") User user, @ModelAttribute("trainer") Trainer trainer) {
         user.setIsActive(true);
-        trainerServiceImpl.createTrainer(trainer, user);
+        User persisted = userServiceImpl.createUser(user);
+        trainer.setUser(persisted);
+        trainerServiceImpl.createTrainer(trainer);
         return "redirect:/trainers/list";
     }
 

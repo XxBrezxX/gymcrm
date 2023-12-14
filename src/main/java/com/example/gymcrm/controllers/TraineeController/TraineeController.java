@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.services.implementations.models.TraineeServiceImpl;
+import com.example.gymcrm.services.implementations.models.UserServiceImpl;
+
 @Controller
 @RequestMapping("/trainees")
 public class TraineeController {
 
     @Autowired
     private TraineeServiceImpl traineeServiceImpl;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -28,7 +33,9 @@ public class TraineeController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, @ModelAttribute("trainee") Trainee trainee) {
         user.setIsActive(true);
-        traineeServiceImpl.createTrainee(trainee, user);
+        User persisted = userServiceImpl.createUser(user);
+        trainee.setUser(persisted);
+        traineeServiceImpl.createTrainee(trainee);
         return "redirect:/h2-console";
     }
 }
