@@ -78,6 +78,12 @@ public class TraineeController {
         User user = userServiceImpl.findByUsername(username);
         user.setIsActive(!user.getIsActive());
         userServiceImpl.updateUser(user);
-        return "redirect:/trainee/list";
+        return "redirect:/trainees/list";
+    }
+
+    @PostMapping("/delete/{username}")
+    public String deleteTrainee(@PathVariable("username") String username) {
+        traineeServiceImpl.deleteTraineeByUsername(username);
+        return "redirect:/trainees/list";
     }
 }

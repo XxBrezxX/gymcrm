@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.User;
@@ -51,10 +52,16 @@ public class TraineeServiceImpl implements TraineeService {
         traineeDao.deleteAll();
     }
 
-   @Override
+    @Override
     public Trainee getTraineeByUsername(String username) {
         return traineeDao.findByUser_Username(username)
                 .orElseThrow(() -> new RuntimeException("No se encontró el Trainer con el username: " + username));
+    }
+
+    @Transactional
+    @Override
+    public void deleteTraineeByUsername(String username) {
+        traineeDao.deleteTraineeByUser_Username(username);
     }
 
 }

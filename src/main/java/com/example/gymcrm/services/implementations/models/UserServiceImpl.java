@@ -119,4 +119,9 @@ public class UserServiceImpl implements UserService {
         // SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 
+    @Override
+    public void deleteByUsername(String username) {
+        userDao.deleteByUsername(username);
+    }
+
 }
