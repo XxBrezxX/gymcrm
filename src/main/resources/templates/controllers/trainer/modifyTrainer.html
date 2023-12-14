@@ -78,30 +78,32 @@
                                     </div>
                                 </li>
                             </ol>
-                            <form
-                                th:action="@{/trainers/updateStatus/{username}(username=${trainer.user.username})}"
-                                method="post" id="updateForm">
-                                <button type="submit"
-                                    style="background: none!important; border: none; padding: 0!important;">
-                                    <svg th:if="${trainer.user.isActive}"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        class="bi bi-check-circle-fill"
-                                        viewBox="0 0 16 16">
-                                        <!-- contenido del svg aquí -->
-                                    </svg>
-                                    <svg th:unless="${trainer.user.isActive}"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        class="bi bi-x-circle-fill"
-                                        viewBox="0 0 16 16">
-                                        <!-- contenido del svg aquí -->
-                                    </svg>
-                                </button>
+                            <form form action="#"
+                                th:action="@{/trainers/modify}" method="post"
+                                id="updateForm">
+                                <div class="container text-center">
+                                    <input type="hidden" name="username"
+                                        th:value="${trainer.user.username}" />
+                                    <div class="row align-items-center py-3">
+                                        <div class="mb-3 col">
+                                            <label for="password"
+                                                class="form-label">New Password</label>
+                                            <input type="password"
+                                                class="form-control"
+                                                id="password" name="password">
+                                        </div>
+                                        <div class="mb-3 col">
+                                            <label for="confirmPassword"
+                                                class="form-label">Confirm
+                                                Password</label>
+                                            <input type="password"
+                                                class="form-control"
+                                                id="confirmPassword">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="btn save-button my-1" type="submit" id="submitButton">Submit</button>
                             </form>
                             <p class="card-text"><small
                                     class="text-body-secondary">Last updated 3
