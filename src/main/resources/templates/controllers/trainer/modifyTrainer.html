@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modify Trainer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Modify Trainer</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/css/common.css">
-</head>
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="/css/common.css">
+    </head>
 
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-    <script>
+    <body>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+        <script>
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('updateForm').addEventListener('submit', function (event) {
                 var password = document.getElementById('password').value;
@@ -28,64 +34,84 @@
             });
         });
     </script>
-    <div class="vh-100 vw-100 d-flex flex-column background"></div>
-    <header th:insert="navbar"></header>
+        <div class="vh-100 vw-100 d-flex flex-column background"></div>
+        <header th:insert="navbar"></header>
 
-    <div class="container py-3 d-flex justify-content-center align-items-center">
-        <div class="card mb-3" style="max-width: 50rem;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="https://th.bing.com/th/id/R.980ccbba9fa6f1f032a522927b27940b?rik=U76cHUjD3WFo4A&riu=http%3a%2f%2fgetdrawings.com%2fimages%2fweight-lifting-drawing-21.jpg&ehk=1tOXGggEoBHiosluhroV9H5C3U1mJqQIjRVB6SZpyc4%3d&risl=&pid=ImgRaw&r=0"
-                        class="img-fluid rounded-start p-2" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"
-                            th:text="${trainer.user.firstName}+' '+${trainer.user.lastName}+' ('+${trainer.user.id}+')'">
-                        </h5>
-                        <ol class="list-group list-group-numbered">
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">Specialization</div>
-                                    <div th:text="${trainer.trainingType?.trainingTypeName} ?: 'N/A'"></div>
-                                </div>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <div class="fw-bold">Trainees</div>
-                                    <ul th:if="${#sets.size(trainer.trainees) > 0}" class="list-group list-group-flush">
-                                        <li class="list-group-item" th:each="trainee:${trainer.trainees}"
-                                            th:text="${trainee.user.username}"></li>
-                                    </ul>
-                                    <div th:unless="${#sets.size(trainer.trainees) > 0}">
-                                        There are no trainees
+        <div
+            class="container py-3 d-flex justify-content-center align-items-center">
+            <div class="card mb-3" style="max-width: 50rem;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img
+                            src="https://th.bing.com/th/id/R.980ccbba9fa6f1f032a522927b27940b?rik=U76cHUjD3WFo4A&riu=http%3a%2f%2fgetdrawings.com%2fimages%2fweight-lifting-drawing-21.jpg&ehk=1tOXGggEoBHiosluhroV9H5C3U1mJqQIjRVB6SZpyc4%3d&risl=&pid=ImgRaw&r=0"
+                            class="img-fluid rounded-start p-2" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"
+                                th:text="${trainer.user.firstName}+' '+${trainer.user.lastName}+' ('+${trainer.user.id}+')'">
+                            </h5>
+                            <ol class="list-group list-group-numbered">
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Specialization</div>
+                                        <div
+                                            th:text="${trainer.trainingType?.trainingTypeName} ?: 'N/A'"></div>
                                     </div>
-                                </div>
-                            </li>
-                        </ol>
-                        <form form action="#" th:action="@{/trainers/modify}" method="post" id="updateForm">
-                            <div class="container text-center">
-                                <input type="hidden" name="username" th:value="${trainer.user.username}" />
-                                <div class="row align-items-center py-3">
-                                    <div class="mb-3 col">
-                                        <label for="password" class="form-label">New Password</label>
-                                        <input type="password" class="form-control" id="password" name="password">
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">Trainees</div>
+                                        <ul
+                                            th:if="${#sets.size(trainer.trainees) > 0}"
+                                            class="list-group list-group-flush">
+                                            <li class="list-group-item"
+                                                th:each="trainee:${trainer.trainees}"
+                                                th:text="${trainee.user.username}"></li>
+                                        </ul>
+                                        <div
+                                            th:unless="${#sets.size(trainer.trainees) > 0}">
+                                            There are no trainees
+                                        </div>
                                     </div>
-                                    <div class="mb-3 col">
-                                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                        <input type="password" class="form-control" id="confirmPassword">
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-                        </form>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                                </li>
+                            </ol>
+                            <form
+                                th:action="@{/trainers/updateStatus/{username}(username=${trainer.user.username})}"
+                                method="post" id="updateForm">
+                                <button type="submit"
+                                    style="background: none!important; border: none; padding: 0!important;">
+                                    <svg th:if="${trainer.user.isActive}"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="currentColor"
+                                        class="bi bi-check-circle-fill"
+                                        viewBox="0 0 16 16">
+                                        <!-- contenido del svg aquí -->
+                                    </svg>
+                                    <svg th:unless="${trainer.user.isActive}"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        fill="currentColor"
+                                        class="bi bi-x-circle-fill"
+                                        viewBox="0 0 16 16">
+                                        <!-- contenido del svg aquí -->
+                                    </svg>
+                                </button>
+                            </form>
+                            <p class="card-text"><small
+                                    class="text-body-secondary">Last updated 3
+                                    mins ago</small></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</body>
+    </body>
 
 </html>

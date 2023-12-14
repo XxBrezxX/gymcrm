@@ -96,8 +96,16 @@ public class TrainerController {
 
         model.addAttribute("summary", summary);
         model.addAttribute("trainer", trainerServiceImpl.getTrainerByUsername(username));
-        
+
         return "controllers/trainer/generateReport";
+    }
+
+    @PostMapping("/updateStatus/{username}")
+    public String updateStatus(@PathVariable("username") String username) {
+        User user = userServiceImpl.findByUsername(username);
+        user.setIsActive(!user.getIsActive());
+        userServiceImpl.updateUser(user);
+        return "redirect:/trainers/list";
     }
 
 }
