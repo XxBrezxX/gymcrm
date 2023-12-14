@@ -43,7 +43,9 @@ public class TraineeController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, @ModelAttribute("trainee") Trainee trainee) {
         user.setIsActive(true);
-        traineeServiceImpl.createTrainee(trainee, user);
+        User persisted = userServiceImpl.createUser(user);
+        trainee.setUser(persisted);
+        traineeServiceImpl.createTrainee(trainee);
         return "redirect:/h2-console";
     }
 

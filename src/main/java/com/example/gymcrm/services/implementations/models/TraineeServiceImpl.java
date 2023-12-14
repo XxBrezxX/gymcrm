@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.gymcrm.model.Trainee;
-import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.TraineeDao;
 import com.example.gymcrm.services.pureServices.TraineeService;
 
@@ -17,13 +16,8 @@ public class TraineeServiceImpl implements TraineeService {
     @Autowired
     private TraineeDao traineeDao;
 
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-
     @Override
-    public Trainee createTrainee(Trainee trainee, User user) {
-        userServiceImpl.createUser(user);
-        trainee.setUser(user);
+    public Trainee createTrainee(Trainee trainee) {
         return traineeDao.save(trainee);
     }
 

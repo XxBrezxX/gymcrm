@@ -39,7 +39,8 @@ class TraineeServiceImplTest {
 
         when(traineeDao.save(trainee)).thenReturn(trainee);
 
-        Trainee response = traineeServiceImpl.createTrainee(trainee, user);
+        trainee.setUser(user);
+        Trainee response = traineeServiceImpl.createTrainee(trainee);
 
         assertEquals(trainee, response);
     }

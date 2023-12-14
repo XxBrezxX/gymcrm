@@ -29,44 +29,47 @@ public class InitDataBean {
             TrainingServiceImpl trainingServiceImpl) {
         return args -> {
 
-            trainerServiceImpl.deleteAllTraineeTrainerRelations();
             trainingServiceImpl.deleteAll();
             traineeServiceImpl.deleteAll();
             trainerServiceImpl.deleteAll();
-            userServiceImpl.deleteAll();
             trainingTypeServiceImpl.deleteAll();
+            userServiceImpl.deleteAll();
 
             TrainingType trainingType1 = new TrainingType(null, "Intense");
             TrainingType trainingType2 = new TrainingType(null, "Easy");
             TrainingType trainingType3 = new TrainingType(null, "Medium");
-
             trainingTypeServiceImpl.createTrainingType(trainingType1);
             trainingTypeServiceImpl.createTrainingType(trainingType2);
             trainingTypeServiceImpl.createTrainingType(trainingType3);
 
-            User user1 = new User(null, "Yessica", "Apolinar", null, null, true);
+            User user1 = new User(null, "Yessica", "Apolinar", "", "", true);
+            User user2 = new User(null, "Bryan", "Hernandez", null, null, true);
+            user1 = userServiceImpl.createUser(user1);
+            user2 = userServiceImpl.createUser(user2);
+
             Trainee trainee1 = new Trainee();
             trainee1.setDateOfBith(new Date(0));
             trainee1.setAddress("Santo Tomás");
-            traineeServiceImpl.createTrainee(trainee1, user1);
+            trainee1.setUser(user1);
+            trainee1 = traineeServiceImpl.createTrainee(trainee1);
 
-            User user2 = new User(null, "Bryan", "Hernandez", null, null, true);
             Trainer trainer1 = new Trainer();
             trainer1.setTrainingType(trainingType1);
-            trainerServiceImpl.createTrainer(trainer1, user2);
+            trainer1.setUser(user2);
+            trainer1 = trainerServiceImpl.createTrainer(trainer1);
 
             // DELETE THIS
-            userServiceImpl.updatePassword("123", user2);
+            userServiceImpl.updatePassword("123", trainer1.getUser());
 
             trainer1.getTrainees().add(trainee1);
             trainee1.getTrainers().add(trainer1);
 
-            trainerServiceImpl.updateTrainer(trainer1);
-            traineeServiceImpl.updateTrainee(trainee1);
+            trainer1 = trainerServiceImpl.updateTrainer(trainer1);
+            trainee1 = traineeServiceImpl.updateTrainee(trainee1);
 
             Training t1 = new Training();
             t1.setTrainee(trainee1);
-            t1.setTrainer(trainer1);
+            t1.setTrainer(trainer1); 
             t1.setTrainingName("Bajar de Peso");
             t1.setTrainingType(trainingType1);
             t1.setTrainingDate(LocalDate.parse("2023-01-01"));

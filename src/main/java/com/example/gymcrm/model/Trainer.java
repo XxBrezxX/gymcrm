@@ -3,6 +3,7 @@ package com.example.gymcrm.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Trainer {
     @JoinColumn(name = "training_type_id", referencedColumnName = "id")
     private TrainingType trainingType;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
