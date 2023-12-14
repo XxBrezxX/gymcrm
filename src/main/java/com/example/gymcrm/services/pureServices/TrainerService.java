@@ -3,10 +3,9 @@ package com.example.gymcrm.services.pureServices;
 import java.util.List;
 
 import com.example.gymcrm.model.Trainer;
-import com.example.gymcrm.model.User;
 
 public interface TrainerService {
-    Trainer createTrainer(Trainer trainer, User user);
+    Trainer createTrainer(Trainer trainer);
 
     Trainer updateTrainer(Trainer trainer);
 

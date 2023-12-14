@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.gymcrm.model.Trainer;
-import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.TrainerDao;
 import com.example.gymcrm.services.pureServices.TrainerService;
 
@@ -16,13 +15,8 @@ public class TrainerServiceImpl implements TrainerService {
     @Autowired
     private TrainerDao trainerDao;
 
-    @Autowired
-    private UserServiceImpl userServiceImpl;
-
     @Override
-    public Trainer createTrainer(Trainer trainer, User user) {
-        userServiceImpl.createUser(user);
-        trainer.setUser(user);
+    public Trainer createTrainer(Trainer trainer) {
         return trainerDao.save(trainer);
     }
 
