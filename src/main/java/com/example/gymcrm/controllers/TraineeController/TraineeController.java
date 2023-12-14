@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.services.implementations.models.TraineeServiceImpl;
+import com.example.gymcrm.services.implementations.models.TrainingServiceImpl;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
 @Controller
@@ -32,6 +33,9 @@ public class TraineeController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private TrainingServiceImpl trainingServiceImpl;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -85,6 +89,8 @@ public class TraineeController {
 
     @PostMapping("/delete/{username}")
     public String deleteTrainee(@PathVariable("username") String username) {
+        Trainee trainee = traineeServiceImpl.getTraineeByUsername(username);
+        trainingServiceImpl.deleteTrainingsByTrainee(trainee);
         traineeServiceImpl.deleteTraineeByUsername(username);
         return "redirect:/trainees/list";
     }
