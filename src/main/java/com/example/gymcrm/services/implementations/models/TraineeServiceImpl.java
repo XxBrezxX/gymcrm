@@ -51,4 +51,10 @@ public class TraineeServiceImpl implements TraineeService {
         traineeDao.deleteAll();
     }
 
+   @Override
+    public Trainee getTraineeByUsername(String username) {
+        return traineeDao.findByUser_Username(username)
+                .orElseThrow(() -> new RuntimeException("No se encontró el Trainer con el username: " + username));
+    }
+
 }
