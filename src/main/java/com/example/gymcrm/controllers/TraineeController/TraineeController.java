@@ -72,4 +72,12 @@ public class TraineeController {
         }
         return "redirect:/login";
     }
+
+    @PostMapping("/updateStatus/{username}")
+    public String updateStatus(@PathVariable("username") String username) {
+        User user = userServiceImpl.findByUsername(username);
+        user.setIsActive(!user.getIsActive());
+        userServiceImpl.updateUser(user);
+        return "redirect:/trainee/list";
+    }
 }
