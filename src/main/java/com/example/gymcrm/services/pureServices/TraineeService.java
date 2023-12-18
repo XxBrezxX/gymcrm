@@ -16,4 +16,8 @@ public interface TraineeService {
     List<Trainee> getAllTrainees();
 
     void deleteAll();
+
+    Trainee getTraineeByUsername(String username);
+
+    void deleteTraineeByUsername(String username);
 }

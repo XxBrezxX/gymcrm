@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Trainers</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="/css/listTrainer.css">
+        <link rel="stylesheet" href="/css/common.css">
+    </head>
+
+    <body>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+        <div class="vh-100 vw-100 d-flex flex-column background">
+        </div>
+        <header th:insert="navbar"></header>
+
+        <div class="container py-2">
+            <h3 class="text-white my-4">
+                Trainer
+                <small style="color: rgb(255, 208, 0);">List</small>
+            </h3>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">Active</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="divider">
+                    <tr th:each="trainee:${trainees}">
+                        <td scope="row" th:text="${trainee.id}"></td>
+                        <td th:text="${trainee.user.firstName}"></td>
+                        <td th:text="${trainee.user.lastName}"></td>
+                        <td> <a
+                                th:href="@{/trainees/modify/{username}(username=${trainee.user.username})}"
+                                th:text="${trainee.user.username}"
+                                class="text-dark align-items-baseline">
+                            </a>
+                        </td>
+                        <td th:text="${trainee.address}"></td>
+                        <td th:text="${trainee.dateOfBith}"></td>
+                        <td class="tg bg">
+                            <form
+                                th:action="@{/trainees/updateStatus/{username}(username=${trainee.user.username})}"
+                                method="post" id="updateForm">
+                                <button type="submit"
+                                    style="background: none!important; border: none; padding: 0!important;">
+                                    <i th:if="${trainee.user.isActive}"
+                                        class="bi bi-check2-circle"></i>
+                                    <i th:unless="${trainee.user.isActive}"
+                                        class="bi bi-x-circle"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form
+                                th:action="@{/trainees/delete/{username}(username=${trainee.user.username})}"
+                                method="post" id="updateForm">
+                                <button type="submit"
+                                    style="background: none!important; border: none; padding: 0!important;">
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+
+</html>

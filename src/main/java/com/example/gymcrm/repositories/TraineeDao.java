@@ -1,5 +1,7 @@
 package com.example.gymcrm.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,4 +12,7 @@ public interface TraineeDao extends JpaRepository<Trainee, Long> {
 
     Trainee findByUserId(Long id);
 
+    Optional<Trainee> findByUser_Username(String username);
+
+    void deleteTraineeByUser_Username(String username);
 }

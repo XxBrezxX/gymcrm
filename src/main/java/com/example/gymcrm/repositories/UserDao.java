@@ -8,4 +8,6 @@ import com.example.gymcrm.model.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
     User findByUsername(String username);
+
+    User deleteByUsername(String username);
 }
