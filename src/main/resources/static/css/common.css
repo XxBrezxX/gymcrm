@@ -1,3 +1,8 @@
+:root {
+    --gym-red: #bb0000;
+    --gym-color: rgb(255, 208, 0);
+}
+
 .background {
     position: fixed;
     /* Hace que el div cubra todo el cuerpo */

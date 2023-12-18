@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -17,15 +18,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.gymcrm.model.Trainer;
+import com.example.gymcrm.model.TrainerMonthlySummary;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.services.implementations.models.TrainerServiceImpl;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
+import reactor.core.publisher.Mono;
+
 @Controller
 @RequestMapping("/trainers")
 public class TrainerController {
+
+    @Value("${workload.get.microservice.url}")
+    private String workloadGetUrl;
 
     @Autowired
     private TrainerServiceImpl trainerServiceImpl;
@@ -74,4 +82,32 @@ public class TrainerController {
         }
         return "redirect:/login";
     }
+
+    @GetMapping("/report/{username}")
+    public String getMethodName(@PathVariable("username") String username, Model model) {
+
+        WebClient webClient = WebClient.create();
+        System.out.println(workloadGetUrl);
+
+        Mono<TrainerMonthlySummary> response = webClient.get()
+                .uri(workloadGetUrl.concat("?trainerUsername=").concat(username))
+                .retrieve()
+                .bodyToMono(TrainerMonthlySummary.class);
+
+        TrainerMonthlySummary summary = response.block();
+
+        model.addAttribute("summary", summary);
+        model.addAttribute("trainer", trainerServiceImpl.getTrainerByUsername(username));
+
+        return "controllers/trainer/generateReport";
+    }
+
+    @PostMapping("/updateStatus/{username}")
+    public String updateStatus(@PathVariable("username") String username) {
+        User user = userServiceImpl.findByUsername(username);
+        user.setIsActive(!user.getIsActive());
+        userServiceImpl.updateUser(user);
+        return "redirect:/trainers/list";
+    }
+
 }

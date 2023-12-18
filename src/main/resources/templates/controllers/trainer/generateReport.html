@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Trainers</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="/css/common.css">
+        <link rel="stylesheet" href="/css/generateReport.css">
+    </head>
+
+    <body>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+        <div class="vh-100 vw-100 d-flex flex-column background">
+        </div>
+        <header th:insert="navbar"></header>
+
+        <div class="container py-2 d-flex flex-column">
+            <h3 class="text-white my-4">
+                <span th:text="${trainer.user.username}"></span>
+                <small style="color: var(--gym-color)">Report</small>
+            </h3>
+
+            <div class="contianer report">
+                <div class="mx-5 my-4">
+                    <div
+                        class="d-flex align-items-baseline justify-content-between">
+                        <span
+                            th:text="${trainer.user.firstName}+' '+${trainer.user.lastName}"
+                            class="fs-3 shadow-sm p-2 rounded"></span>
+                        <div style="text-decoration: underline;">
+                            <span th:if="${trainer.user.isActive}" class="fs-4">Status:
+                                Active</span>
+                            <span th:unless="${trainer.user.isActive}"
+                                class="fs-4">Status: Sleep</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row flex">
+                        <div class="col d-flex flex-column me-3">
+                            <div class="d-flex fs-5">Yearly Training Summary</div>
+                            <div class="my-2">
+                                <ol class="list-group">
+                                    <li
+                                        th:each="report: ${summary.yearlyTrainingSummary}"
+                                        class="list-group-item noLight d-flex justify-content-between align-items-start">
+                                        <div class="ms-1 me-auto">
+                                            <div class="fw-bold"
+                                                th:text="${report.key}"></div>
+                                            <ul
+                                                class="list-group list-group-flush"
+                                                th:each="month: ${report.value}">
+                                                <li
+                                                    class="list-group-item noLight">
+                                                    <span th:text="${month.key}"
+                                                        class="fw-semibold"></span>
+                                                    <span
+                                                        th:text="${month.value}+' hrs.'"
+                                                        class="fst-italic"></span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span class="badge rounded-pill"
+                                            style="background-color: var(--gym-red);"
+                                            th:text="${report.value.size}+' month'"></span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="col d-flex flex-column ms-3">
+                            <div class="d-flex fs-5">Trainees</div>
+                            <div class="my-2">
+                                <ol class="list-group list-group-numbered">
+                                    <li th:each="trainee: ${trainer.trainees}"
+                                        class="list-group-item noLight d-flex align-items-start">
+                                        <div class="ms-1 flex-column w-100">
+                                            <div
+                                                class="ms-1 d-flex justify-content-between">
+                                                <div
+                                                    class="fw-semibold flex-column"
+                                                    th:text="${trainee.user.firstName}+' '+${trainee.user.lastName}">
+                                                </div>
+                                                <span
+                                                    class="badge rounded-pill flex-column"
+                                                    style="background-color: var(--gym-red);"
+                                                    th:text="${trainee.trainers.size}+' trainer'">
+                                                </span>
+                                            </div>
+                                            <div
+                                                class="ms-1 d-flex justify-content-between">
+                                                <div>Training Name</div>
+                                                <div class="d-flex">
+                                                    <div>Training Date</div>
+                                                    <div>Duration</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>

@@ -1,9 +1,12 @@
-{
-    "properties": [
-        {
-            "name": "workload.microservice.url",
-            "type": "java.lang.String",
-            "description": "A description for 'workload.microservice.url'"
-        }
-    ]
-}
+{"properties": [
+  {
+    "name": "workload.microservice.url",
+    "type": "java.lang.String",
+    "description": "A description for 'workload.microservice.url'"
+  },
+  {
+    "name": "workload.get.microservice.url",
+    "type": "java.lang.String",
+    "description": "A description for 'workload.get.microservice.url'"
+  }
+]}
