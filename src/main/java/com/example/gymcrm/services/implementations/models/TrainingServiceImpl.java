@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.Trainer;
 import com.example.gymcrm.model.TrainerWorkloadRequest;
 import com.example.gymcrm.model.Training;
@@ -57,6 +58,15 @@ public class TrainingServiceImpl implements TrainingService {
 
     public void deleteAll() {
         trainingDao.deleteAll();
+    }
+
+    @Override
+    public void deleteTrainingsByTrainee(Trainee trainee) {
+        List<Training> trainings = trainingDao.findByTrainee(trainee);
+        for (Training training : trainings) {
+            training.setTrainee(null); // cambia la referencia a null
+            trainingDao.save(training); // guarda los cambios
+        }
     }
 
 }

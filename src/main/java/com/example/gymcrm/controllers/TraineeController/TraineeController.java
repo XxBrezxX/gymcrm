@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.services.implementations.models.TraineeServiceImpl;
+import com.example.gymcrm.services.implementations.models.TrainingServiceImpl;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
 @Controller
@@ -22,6 +23,9 @@ public class TraineeController {
 
     @Autowired
     private UserServiceImpl userServiceImpl;
+
+    @Autowired
+    private TrainingServiceImpl trainingServiceImpl;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -37,5 +41,47 @@ public class TraineeController {
         trainee.setUser(persisted);
         traineeServiceImpl.createTrainee(trainee);
         return "redirect:/h2-console";
+    }
+
+    @GetMapping("/list")
+    public String getTrainees(Model model) {
+        List<Trainee> trainees = traineeServiceImpl.getAllTrainees();
+        model.addAttribute("trainees", trainees);
+        return "controllers/trainee/listTrainee";
+    }
+
+    @GetMapping("/modify/{username}")
+    public String getTrainer(@PathVariable String username, Model model) {
+        Trainee trainee = traineeServiceImpl.getTraineeByUsername(username);
+        model.addAttribute("trainee", trainee);
+        return "controllers/trainee/modifyTrainee";
+    }
+
+    @PostMapping("/modify")
+    public String newPassword(@RequestParam("username") String username, @RequestParam("password") String password,
+            HttpServletRequest request, HttpServletResponse response) {
+        User user = userServiceImpl.findByUsername(username);
+        userServiceImpl.updatePassword(password, user);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("/updateStatus/{username}")
+    public String updateStatus(@PathVariable("username") String username) {
+        User user = userServiceImpl.findByUsername(username);
+        user.setIsActive(!user.getIsActive());
+        userServiceImpl.updateUser(user);
+        return "redirect:/trainees/list";
+    }
+
+    @PostMapping("/delete/{username}")
+    public String deleteTrainee(@PathVariable("username") String username) {
+        Trainee trainee = traineeServiceImpl.getTraineeByUsername(username);
+        trainingServiceImpl.deleteTrainingsByTrainee(trainee);
+        traineeServiceImpl.deleteTraineeByUsername(username);
+        return "redirect:/trainees/list";
     }
 }
