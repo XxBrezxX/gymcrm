@@ -2,11 +2,8 @@ package com.example.gymcrm.controllers.TraineeController;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.gymcrm.model.Trainee;
 import com.example.gymcrm.model.Trainer;
-import com.example.gymcrm.model.Training;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.model.requests.DeleteRequest;
-import com.example.gymcrm.model.requests.GetTrainingsRequest;
 import com.example.gymcrm.model.requests.RegisterTraineeDto;
 import com.example.gymcrm.model.requests.UpdateTraineesTrainerListRequest;
 import com.example.gymcrm.services.implementations.models.TraineeServiceImpl;
 import com.example.gymcrm.services.implementations.models.TrainerServiceImpl;
-import com.example.gymcrm.services.implementations.models.TrainingServiceImpl;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,9 +39,6 @@ public class TraineeApiController {
 
     @Autowired
     private TrainerServiceImpl trainerServiceImpl;
-
-    @Autowired
-    private TrainingServiceImpl trainingServiceImpl;
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody RegisterTraineeDto info) {
@@ -118,30 +109,6 @@ public class TraineeApiController {
         trainee = traineeServiceImpl.updateTrainee(trainee);
 
         return ResponseEntity.ok(trainee.toString());
-    }
-
-    @GetMapping("/getTrainings")
-    public ResponseEntity<String> getTrainings(@RequestBody GetTrainingsRequest data) {
-        List<Training> trainings = trainingServiceImpl.getAllTrainingsByUsername(data.getUsername());
-    
-        Stream<Training> stream = trainings.stream();
-    
-        if (data.getFrom() != null) {
-            stream = stream.filter(training -> !training.getTrainingDate().isBefore(data.getFrom()));
-        }
-        if (data.getTo() != null) {
-            stream = stream.filter(training -> !training.getTrainingDate().isAfter(data.getTo()));
-        }
-        if (data.getTrainerName() != null) {
-            stream = stream.filter(
-                    training -> training.getTrainer().getUser().getUsername().contentEquals(data.getTrainerName()));
-        }
-        if (data.getTrainingTypeName() != null) {
-            stream = stream.filter(training -> training.getTrainingType().getTrainingTypeName()
-                    .contentEquals(data.getTrainingTypeName()));
-        }
-        List<Training> response = stream.collect(Collectors.toList());
-        return ResponseEntity.ok(response.toString());
     }
 
 }
