@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.gymcrm.components.JwtTokenFilter;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -30,17 +32,28 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http.csrf(csrf -> csrf.disable())
+                http
+                                .csrf(csrf -> csrf.disable())
                                 .authorizeRequests(
-                                                requests -> requests.antMatchers(HttpMethod.POST, "/authenticate")
+                                                requests -> requests
+                                                                .antMatchers(HttpMethod.POST,
+                                                                                "/authenticate")
+                                                                .permitAll()
+                                                                .antMatchers(HttpMethod.POST,
+                                                                                "/trainers/api/register",
+                                                                                "/trainees/api/register")
                                                                 .permitAll()
                                                                 .antMatchers("/h2-console/**").permitAll()
                                                                 .anyRequest().authenticated())
                                 .headers(headers -> headers.frameOptions().sameOrigin())
-                                .formLogin(login -> login.loginPage("/login").permitAll()
+                                .formLogin(login -> login
+                                                .loginPage("/login").permitAll()
                                                 .defaultSuccessUrl("/home"))
                                 .addFilterBefore(jwtTokenFilter,
-                                                UsernamePasswordAuthenticationFilter.class); 
+                                                UsernamePasswordAuthenticationFilter.class)
+                                .logout(logout -> logout.permitAll())
+                                .httpBasic(withDefaults());
+
                 return http.build();
         }
 
