@@ -55,7 +55,9 @@ public class TraineeServiceImpl implements TraineeService {
     @Transactional
     @Override
     public void deleteTraineeByUsername(String username) {
-        traineeDao.deleteTraineeByUser_Username(username);
+        System.out.println(username);
+        Long rows = traineeDao.deleteByUser_Username(username);
+        System.out.println("Rows affected: "+rows.toString());
     }
 
 }

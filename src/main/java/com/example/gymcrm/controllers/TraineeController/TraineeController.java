@@ -1,11 +1,14 @@
 package com.example.gymcrm.controllers.TraineeController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,12 +49,18 @@ public class TraineeController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, @ModelAttribute("trainee") Trainee trainee) {
+    public ResponseEntity<Map<String, String>> registerUser(@ModelAttribute("user") User user,
+            @ModelAttribute("trainee") Trainee trainee) {
         user.setIsActive(true);
         User persisted = userServiceImpl.createUser(user);
         trainee.setUser(persisted);
         traineeServiceImpl.createTrainee(trainee);
-        return "redirect:/h2-console";
+
+        Map<String, String> response = new HashMap<>();
+        response.put("username", persisted.getUsername());
+        response.put("password", persisted.getPassword());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/list")
@@ -67,7 +77,7 @@ public class TraineeController {
         return "controllers/trainee/modifyTrainee";
     }
 
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     public String newPassword(@RequestParam("username") String username, @RequestParam("password") String password,
             HttpServletRequest request, HttpServletResponse response) {
         User user = userServiceImpl.findByUsername(username);
@@ -94,4 +104,6 @@ public class TraineeController {
         traineeServiceImpl.deleteTraineeByUsername(username);
         return "redirect:/trainees/list";
     }
+
+    
 }

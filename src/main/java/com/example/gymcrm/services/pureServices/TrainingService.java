@@ -14,4 +14,6 @@ public interface TrainingService {
     List<Training> getAllTrainings();
 
     void deleteTrainingsByTrainee(Trainee trainee);
+
+    List<Training> getAllTrainingsByUsername(String username);
 }

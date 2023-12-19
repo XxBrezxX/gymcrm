@@ -14,5 +14,5 @@ public interface TraineeDao extends JpaRepository<Trainee, Long> {
 
     Optional<Trainee> findByUser_Username(String username);
 
-    void deleteTraineeByUser_Username(String username);
+    long deleteByUser_Username(String username);
 }

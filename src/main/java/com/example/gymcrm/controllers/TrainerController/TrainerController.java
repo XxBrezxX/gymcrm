@@ -1,12 +1,15 @@
 package com.example.gymcrm.controllers.TrainerController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -27,6 +31,7 @@ import com.example.gymcrm.services.implementations.models.TrainerServiceImpl;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
 
 import reactor.core.publisher.Mono;
+
 
 @Controller
 @RequestMapping("/trainers")
@@ -49,12 +54,18 @@ public class TrainerController {
     }
 
     @PostMapping("/register")
-    public String registerTrainer(@ModelAttribute("user") User user, @ModelAttribute("trainer") Trainer trainer) {
+    public ResponseEntity<Map<String, String>> registerTrainer(@ModelAttribute("user") User user,
+            @ModelAttribute("trainer") Trainer trainer) {
         user.setIsActive(true);
         User persisted = userServiceImpl.createUser(user);
         trainer.setUser(persisted);
         trainerServiceImpl.createTrainer(trainer);
-        return "redirect:/trainers/list";
+
+        Map<String, String> response = new HashMap<>();
+        response.put("username", persisted.getUsername());
+        response.put("password", persisted.getPassword());
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/list")
@@ -71,7 +82,7 @@ public class TrainerController {
         return "controllers/trainer/modifyTrainer";
     }
 
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     public String newPassword(@RequestParam("username") String username, @RequestParam("password") String password,
             HttpServletRequest request, HttpServletResponse response) {
         User user = userServiceImpl.findByUsername(username);

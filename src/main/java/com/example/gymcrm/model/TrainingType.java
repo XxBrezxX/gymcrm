@@ -20,5 +20,9 @@ public class TrainingType {
 
     @NotEmpty
     private String trainingTypeName;
-    
+
+    @Override
+    public String toString() {
+        return "TrainingType [id=" + id + ", trainingTypeName=" + trainingTypeName + "]";
+    }
 }

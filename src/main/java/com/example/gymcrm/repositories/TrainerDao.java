@@ -1,5 +1,6 @@
 package com.example.gymcrm.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -21,4 +22,7 @@ public interface TrainerDao extends JpaRepository<Trainer, Long> {
     Trainer findByUserId(Long id);
 
     Optional<Trainer> findByUser_Username(String username);
+
+    @Query("SELECT t FROM Trainer t WHERE t NOT IN (SELECT t FROM Trainer t JOIN t.trainees tr WHERE tr.user.isActive = true)")
+    List<Trainer> findNotAssignedToActiveTrainee();
 }

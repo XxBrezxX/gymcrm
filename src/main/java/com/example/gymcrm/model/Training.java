@@ -44,4 +44,10 @@ public class Training {
 
     @NotNull
     private Integer duration;
+
+    @Override
+    public String toString() {
+        return "Training [id=" + id + ", trainingName=" + trainingName
+                + ", trainingDate=" + trainingDate + ", duration=" + duration + "]";
+    }
 }

@@ -12,4 +12,5 @@ import com.example.gymcrm.model.Training;
 public interface TrainingDao extends JpaRepository<Training, Long> {
     List<Training> findByTrainee(Trainee trainee);
 
+    List<Training> findByTrainee_User_Username(String username);
 }

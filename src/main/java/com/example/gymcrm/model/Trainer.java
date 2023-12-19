@@ -35,4 +35,10 @@ public class Trainer {
 
     @ManyToMany(mappedBy = "trainers")
     private Set<Trainee> trainees = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Trainer [id=" + id + ", trainingType=" + trainingType
+                + ", user=" + user + "]";
+    }
 }

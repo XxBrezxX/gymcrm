@@ -38,4 +38,9 @@ public class Trainee {
     @JoinTable(name = "trainee_trainer", joinColumns = @JoinColumn(name = "trainee_id"), inverseJoinColumns = @JoinColumn(name = "trainer_id"))
     private Set<Trainer> trainers = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return "Trainee [id=" + id + ", dateOfBirth=" + dateOfBith + ", address=" + address + ", user=" + user.toString() + ", trainers=" + trainers + "]";
+    }
+
 }

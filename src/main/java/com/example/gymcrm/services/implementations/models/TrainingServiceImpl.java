@@ -69,4 +69,9 @@ public class TrainingServiceImpl implements TrainingService {
         }
     }
 
+    @Override
+    public List<Training> getAllTrainingsByUsername(String username) {
+        return trainingDao.findByTrainee_User_Username(username);
+    }
+
 }

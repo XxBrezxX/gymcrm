@@ -30,7 +30,7 @@ public class User {
 
     @NotEmpty
     private String lastName;
-    
+
     @NotEmpty
     private String username;
 
@@ -40,4 +40,11 @@ public class User {
     @NotNull
     private Boolean isActive;
     // getters y setters
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", firstName=" + firstName + ", lastName="
+                + lastName + ", username=" + username + ", password=" + password
+                + ", isActive=" + isActive + "]";
+    }
 }

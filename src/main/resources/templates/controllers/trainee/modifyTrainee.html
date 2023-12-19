@@ -71,6 +71,7 @@
                             <form form action="#"
                                 th:action="@{/trainees/modify}" method="post"
                                 id="updateForm">
+                                <input type="hidden" name="_method" value="put" />
                                 <div class="container text-center">
                                     <input type="hidden" name="username"
                                         th:value="${trainee.user.username}" />
@@ -93,7 +94,8 @@
                                     </div>
                                 </div>
 
-                                <button class="btn save-button my-1" type="submit" id="submitButton">Submit</button>
+                                <button class="btn save-button my-1"
+                                    type="submit" id="submitButton">Submit</button>
                             </form>
                             <p class="card-text"><small
                                     class="text-body-secondary">Last updated 3
