@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.model.requests.UpdatePaswordRequest;
+import com.example.gymcrm.model.requests.UpdateStatusRequest;
 import com.example.gymcrm.services.implementations.models.UserServiceImpl;
+
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,5 +37,13 @@ public class UserApiController {
         userServiceImpl.updatePassword(data.getNewPassword(), user);
 
         return ResponseEntity.status(200).body("Password updated.");
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<String> updateActive(@RequestBody UpdateStatusRequest data) {
+        User user = userServiceImpl.findByUsername(data.getUsername());
+        user.setIsActive(data.getIsActive());
+        user = userServiceImpl.updateUser(user);
+        return ResponseEntity.ok("OK");
     }
 }
