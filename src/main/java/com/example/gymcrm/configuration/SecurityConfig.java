@@ -32,27 +32,27 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                .csrf(csrf -> csrf.disable())
-                                .authorizeRequests(
-                                                requests -> requests
-                                                                .antMatchers(HttpMethod.POST,
-                                                                                "/authenticate")
-                                                                .permitAll()
-                                                                .antMatchers(HttpMethod.POST,
-                                                                                "/trainers/api/register",
-                                                                                "/trainees/api/register")
-                                                                .permitAll()
-                                                                .antMatchers("/h2-console/**").permitAll()
-                                                                .anyRequest().authenticated())
-                                .headers(headers -> headers.frameOptions().sameOrigin())
-                                .formLogin(login -> login
-                                                .loginPage("/login").permitAll()
-                                                .defaultSuccessUrl("/home"))
-                                .addFilterBefore(jwtTokenFilter,
-                                                UsernamePasswordAuthenticationFilter.class)
-                                .logout(logout -> logout.permitAll())
-                                .httpBasic(withDefaults());
+                http.csrf(csrf -> csrf.disable())
+                    .authorizeRequests(
+                            requests -> requests
+                                    .antMatchers(HttpMethod.POST,
+                                            "/authenticate")
+                                    .permitAll()
+                                    .antMatchers(HttpMethod.POST,
+                                            "/trainers/api/register",
+                                            "/trainees/api/register")
+                                    .permitAll()
+                                    .antMatchers("/h2-console/**").permitAll()
+                                    .anyRequest().authenticated())
+                    .headers(headers -> headers.frameOptions().sameOrigin())
+                    .formLogin(login -> login
+                            .loginPage("/login").permitAll()
+                            .defaultSuccessUrl("/home"))
+                    .addFilterBefore(jwtTokenFilter,
+                            UsernamePasswordAuthenticationFilter.class)
+                    .logout(logout -> logout.permitAll())
+                    .httpBasic(withDefaults())
+                    .cors(withDefaults());
 
                 return http.build();
         }
