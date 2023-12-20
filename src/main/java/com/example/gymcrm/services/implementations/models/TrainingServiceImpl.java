@@ -12,8 +12,11 @@ import com.example.gymcrm.model.Training;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.model.TrainerWorkloadRequest.ActionType;
 import com.example.gymcrm.repositories.TrainingDao;
-import com.example.gymcrm.services.implementations.web.TrainerWorkloadService;
+import com.example.gymcrm.services.messaging.MessageSenderService;
 import com.example.gymcrm.services.pureServices.TrainingService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @Service
@@ -23,7 +26,7 @@ public class TrainingServiceImpl implements TrainingService {
     private TrainingDao trainingDao;
 
     @Autowired
-    private TrainerWorkloadService trainerWorkloadService;
+    private MessageSenderService messageSenderService;
 
     @HystrixCommand
     @Override
@@ -40,7 +43,19 @@ public class TrainingServiceImpl implements TrainingService {
         tWorkloadRequest.setTrainingDuration(training.getDuration());
         tWorkloadRequest.setActionType(ActionType.ADD);
 
-        trainerWorkloadService.updateWorkload(tWorkloadRequest);
+        // Creacion de JSON para enviar a mi microservicio
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        String jsonString;
+        try {
+            jsonString = mapper.writeValueAsString(tWorkloadRequest);
+            messageSenderService.sendMessage("add.workload", jsonString);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        // Antiguo HTTP Service
+        // trainerWorkloadService.updateWorkload(tWorkloadRequest);
 
         return trainingDao.save(training);
     }
