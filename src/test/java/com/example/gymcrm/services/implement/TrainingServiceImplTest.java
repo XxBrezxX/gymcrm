@@ -1,4 +1,4 @@
-package com.example.gymcrm.services;
+package com.example.gymcrm.services.implement;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;

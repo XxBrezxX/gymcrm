@@ -1,4 +1,4 @@
-package com.example.gymcrm.services;
+package com.example.gymcrm.services.implement;
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 

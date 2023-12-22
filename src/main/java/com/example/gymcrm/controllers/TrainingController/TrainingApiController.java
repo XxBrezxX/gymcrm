@@ -46,7 +46,7 @@ public class TrainingApiController {
         }
         if (data.getTrainerName() != null) {
             stream = stream.filter(
-                    training -> training.getTrainer().getUser().getUsername().contentEquals(data.getTrainerName()));
+                    training -> training.getTrainer().getUser().getFirstName().contentEquals(data.getTrainerName()));
         }
         if (data.getTrainingTypeName() != null) {
             stream = stream.filter(training -> training.getTrainingType().getTrainingTypeName()
@@ -57,7 +57,7 @@ public class TrainingApiController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> postMethodName(@RequestBody AddTrainingRequest data) {
+    public ResponseEntity<String> createTraining(@RequestBody AddTrainingRequest data) {
         Trainee trainee = traineeServiceImpl.getTraineeByUsername(data.getTrainee());
         Trainer trainer = trainerServiceImpl.getTrainerByUsername(data.getTrainer());
 
