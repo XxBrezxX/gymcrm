@@ -25,8 +25,8 @@ public class TrainingServiceImpl implements TrainingService {
     @Autowired
     private TrainingDao trainingDao;
 
-    @Autowired
-    private MessageSenderService messageSenderService;
+    // @Autowired
+    // private MessageSenderService messageSenderService;
 
     @HystrixCommand
     @Override
@@ -49,7 +49,7 @@ public class TrainingServiceImpl implements TrainingService {
         String jsonString;
         try {
             jsonString = mapper.writeValueAsString(tWorkloadRequest);
-            messageSenderService.sendMessage("add.workload", jsonString);
+            // messageSenderService.sendMessage("add.workload", jsonString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
