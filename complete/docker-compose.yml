@@ -1,0 +1,75 @@
+version: '3'
+services:
+
+  activemq:
+    image: rmohr/activemq
+    container_name: 'activemq'
+    ports:
+      - "8082:8161"
+    environment:
+      - ACTIVEMQ_ADMIN_LOGIN=admin
+      - ACTIVEMQ_ADMIN_PASSWORD=admin
+    networks:
+      - messaging
+
+  mongodb:
+    image: mongo:4.4
+    container_name: "mongodb"
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - mongo
+
+  mysql:
+    image: mysql:latest
+    container_name: mysqlDB
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: gymcrm
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - database
+
+  trainer-micro:
+    build:
+      context: ./trainer-microservice
+      dockerfile: Dockerfile
+    container_name: trainer-micro
+    networks:
+      - microNet
+      - messaging
+      - mongo
+    depends_on:
+      - activemq
+      - mongodb
+
+  gymcrm:
+    build:
+      context: ./gymcrm
+      dockerfile: Dockerfile
+    container_name: gymcrm
+    ports:
+      - "8081:8083"
+    networks:
+      - messaging
+      - microNet
+      - database
+    depends_on:
+      - mysql
+      - activemq
+      - trainer-micro
+
+volumes:
+  mongodbdata:
+  mysql_data:
+
+
+networks:
+  database:
+  messaging:
+  microNet:
+  mongo:
