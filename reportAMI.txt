@@ -1,0 +1,8 @@
+sudo apt-get update
+aws s3 cp s3://taskbryanhernandezm/trainer-micro-image.tar trainer-micro-image.tar
+sudo yum update -y
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo docker load -i trainer-micro-image.tar
+sudo docker run -p 80:8083 -d sf_tasks-trainer-micro
+usermod -a -G docker ec2-user

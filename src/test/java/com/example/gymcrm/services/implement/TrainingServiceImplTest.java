@@ -21,7 +21,6 @@ import com.example.gymcrm.model.User;
 import com.example.gymcrm.repositories.TrainingDao;
 import com.example.gymcrm.services.implementations.models.TrainingServiceImpl;
 import com.example.gymcrm.services.implementations.web.TrainerWorkloadService;
-import com.example.gymcrm.services.messaging.MessageSenderService;
 
 @DataJpaTest
 class TrainingServiceImplTest {
@@ -30,9 +29,6 @@ class TrainingServiceImplTest {
 
     @Mock
     private TrainingDao trainingDao;
-
-    @Mock
-    private MessageSenderService messageSenderService;
 
     @InjectMocks
     private TrainingServiceImpl trainingServiceImpl;

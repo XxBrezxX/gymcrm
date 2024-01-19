@@ -1,0 +1,7 @@
+sudo apt-get update
+aws s3 cp s3://taskbryanhernandezm/main-image.tar main-image.tar
+sudo yum update -y
+sudo amazon-linux-extras install docker
+sudo service docker start
+sudo docker load -i main-image.tar
+sudo docker run -p 80:8083 -d sf_tasks-gymcrm

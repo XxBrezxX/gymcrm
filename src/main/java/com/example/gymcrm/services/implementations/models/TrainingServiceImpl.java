@@ -12,7 +12,7 @@ import com.example.gymcrm.model.Training;
 import com.example.gymcrm.model.User;
 import com.example.gymcrm.model.TrainerWorkloadRequest.ActionType;
 import com.example.gymcrm.repositories.TrainingDao;
-import com.example.gymcrm.services.messaging.MessageSenderService;
+import com.example.gymcrm.services.messaging.QueueService;
 import com.example.gymcrm.services.pureServices.TrainingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +27,9 @@ public class TrainingServiceImpl implements TrainingService {
 
     // @Autowired
     // private MessageSenderService messageSenderService;
+
+    @Autowired
+    private QueueService service;
 
     @HystrixCommand
     @Override
@@ -50,6 +53,7 @@ public class TrainingServiceImpl implements TrainingService {
         try {
             jsonString = mapper.writeValueAsString(tWorkloadRequest);
             // messageSenderService.sendMessage("add.workload", jsonString);
+            service.sendMessage(jsonString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
